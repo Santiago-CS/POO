@@ -14,7 +14,7 @@ public class Actividad1 {
     	int año = 2026;
     	//primer apellido no admitido por el espacio
     	
-    	String primer_apellido = "Nuñez";
+    	String primer_apellido = "Stones";
     	
     	//Primer-apellido es el simbolo de resta no admite esto
     	//1primerApellido no admite no puede empezar con numero
@@ -118,7 +118,7 @@ public class Actividad1 {
         System.out.println("¿Es bisiesto?: " + esBisiesto);
         System.out.println("Edad: " + edadPersona + " años");
         
-        
+        //7Cuál va a ser la salida que mostrará en pantalla?.
         String s1 = "Hola";
         String s2 = "Hola";
         String s3 = new String("Hola");
