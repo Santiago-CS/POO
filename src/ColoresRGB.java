@@ -17,6 +17,7 @@ public class ColoresRGB {
 		
 		JOptionPane.showMessageDialog(null, "Rojo: " +red+ "\nVerde: "+green+"\nAzul: "+blue);
 		
+		//Cambiar rango y promocion de operandos
 		double r = red / 255.0;
 		double g = green / 255.0;
 		double b = blue / 255.0;
@@ -34,7 +35,7 @@ public class ColoresRGB {
 		//Para el color amarillo scon azul y negro
 		double a = (1.0-b-BLK) / (1.0-BLK);
 		
-		String resultado_C_M_A_BLK = String.format("(%.0f, %.2f, %.2f, %.2f)", c, m, a, BLK);
+		String resultado_C_M_A_BLK = String.format("(%.2f, %.2f, %.2f, %.2f)", c, m, a, BLK);
 		
 		JOptionPane.showMessageDialog(null, 
                 "El resultado C_M_A_BLK es: " + resultado_C_M_A_BLK, 

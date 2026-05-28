@@ -29,7 +29,7 @@ public class DIstanciaYTiempo {
                                "Tu tiempo estimado de viaje es de: " + String.format("%.1f", tiempoEstimadoMinutos) + " minutos.";
         } else {
             // Si el tiempo estimado es mayor al límite, ya es llegar tarde :(
-            mensajeResultado = "Llama, No vas a llegar a tiempo.\n" +
+            mensajeResultado = "Llama, No vas a llegar a tiempo .\n" +
                                "Vas a tardar aproximadamente: " + String.format("%.1f", tiempoEstimadoMinutos) + " minutos.";
         }
         
