@@ -25,8 +25,7 @@ public class Ejer3 {
             
             // Intentamos convertir la entrada a número
             try {
-                // CORRECCIÓN 1: Aquí convertimos el texto a número antes de evaluarlo.
-                // Sin esta línea, el catch nunca detectaría si hay letras.
+                //el texto a número con .parseDouble antes de evaluarlo y se le quitan espacios con el trim.
                 precio = Double.parseDouble(entrada.trim());
                 
                 if(precio <= 0) {
@@ -43,14 +42,11 @@ public class Ejer3 {
                         JOptionPane.ERROR_MESSAGE);
             }
         }    
-        
-        // CORRECCIÓN 2: Se eliminó el "while(true);" suelto que estaba aquí y que congelaba tu programa.
                 
         // Cálculo del IVA
         if (precio > 0) {
             double precioConIva = precio * 1.16;
             
-            // Usamos String.format para redondear a 2 decimales
             JOptionPane.showMessageDialog(null, 
                     "Precio capturado: $" + precio + "\n" +
                     "Precio total con IVA (16%): $" + String.format("%.2f", precioConIva),

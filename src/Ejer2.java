@@ -6,15 +6,14 @@ public class Ejer2 {
 		long iteraciones = 0;
         String entrada;
         
-        // 1. TU CICLO DE VALIDACIÓN
         while(true) {
             entrada = JOptionPane.showInputDialog(
                     "Cálculo de PI por Serie de Leibniz\n" +
-                    "Introduce el número de iteraciones o 'exit' para salir):");
+                    "Introduce el número de iteraciones o 'exit' para salir): ");
             
             // Si presionan Cancelar o la X
             if(entrada == null) {
-                System.out.println("Introduce Un Numero");
+                System.out.println("Introduce Un Numero: ");
                 continue;
             }
             
@@ -23,9 +22,9 @@ public class Ejer2 {
                 break;
             }
             
-            // Intentamos convertir la entrada a número
+            // conversion de texto a numero (parseLong)
             try {
-                iteraciones = Long.parseLong(entrada.trim()); //Long para soportar miles de millones
+                iteraciones = Long.parseLong(entrada.trim()); //Long para soportar millones como lo pide el ejercicio
                 
                 if(iteraciones <= 0) {
                     JOptionPane.showMessageDialog(null, "El número debe ser mayor a 0.");

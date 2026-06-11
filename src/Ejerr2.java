@@ -1,0 +1,55 @@
+public class Ejerr2 {
+
+    public static void main(String[] args) {
+        
+        // Definimos el vector V de enteros de 16 bits 
+        short[] V = {12, 5, -7, 20, 15, 8, 3, 30};
+        
+        // Definimos nuestra variable x para comparar
+        short x = 10;
+        
+        //Contadores para determinar los tamaños de V1 y V2
+        int contMayores = 0;
+        int contImpares = 0;
+        
+        //Conta los elementos que cumplen las condiciones
+        for (int i = 0; i < V.length; i++) {
+            if (V[i] > x) {
+                contMayores++;
+            }
+            
+            if (V[i] % 2 != 0) {
+                contImpares++;
+            }
+        }
+        
+        short[] V1 = new short[contMayores];
+        short[] V2 = new short[contImpares];
+        
+        int indiceV1 = 0;
+        int indiceV2 = 0;
+        
+        for (int i = 0; i < V.length; i++) {
+            
+            if (V[i] > x) {
+                V1[indiceV1] = V[i];
+                indiceV1++; // Avanzamos una casilla en V1
+            }
+            
+            if (V[i] % 2 != 0) {
+                V2[indiceV2] = V[i];
+                indiceV2++; // Avanzamos una casilla en V2
+            }
+        }
+        
+        System.out.print("Vector Original (V): ");
+        for (short num : V) System.out.print(num + " ");
+        
+        System.out.print("\nVector V1 (Mayores a " + x + "): ");
+        for (short num : V1) System.out.print(num + " ");
+        
+        System.out.print("\nVector V2 (Impares): ");
+        for (short num : V2) System.out.print(num + " ");
+        
+    }
+}
