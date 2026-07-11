@@ -1,0 +1,168 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.List;
+
+public class MetodosGenericos {
+
+	// Imprime una colección que sea derivada de List que contenga
+	// cualquier tipo de objeto.
+	// Las colecciones derivadas de List tienen un índice, por eso
+	// podemos obtener cada elemento a través del método get y su índice
+	public static void printList(List<?> list) {
+		for(int i=0;i<list.size();i++)
+			System.out.println(list.get(i));
+	}
+	
+	// Imprime una colección de cualquier tipo, no necesariamente derivada de List
+	// Como puede que no sea derivada de List, aquí es necesario usar
+	// un ciclo for each
+	public static <T> void printCollection(Collection<T> collection) {
+		for(T elem:collection)
+			System.out.println(elem);
+	}
+	
+	// Obtiene el entero mayor de una colección de enteros
+	// Solo funciona con colecciones enteras.
+	public static Integer greatestNumber1(Collection<Integer> collection) {
+		Integer maxNum = 0;
+		boolean firstNum = true;
+		
+		for(Integer n:collection) {
+			if(firstNum) {
+				maxNum = n;
+				firstNum = false;
+			}
+			if(n>maxNum)
+				maxNum = n;
+		}
+		
+		return maxNum;
+	}
+	
+	// Obtener el número más grande que puede ser Integer, Double, Float, etc.
+	// es decir un número de cualquier tipo
+	// ? extends Number se refiere que el tipo de objetos que 
+	// tiene collection son Number o derivados de Number
+	public static Double greatestNumber2(Collection<? extends Number> collection) {
+		Double maxNum = 0.0;
+		boolean firstNum = true;
+		
+		for(Number n:collection) {
+			if(firstNum) {
+				maxNum = n.doubleValue();
+				firstNum = false;
+			}
+			if(n.doubleValue()>maxNum)
+				maxNum = n.doubleValue();
+		}
+		
+		return maxNum;
+	}
+	
+	// Copiar objetos de una colección a otra colección
+	// Los objetos de la colección fuente pueden ser del mismio tipo de objeto de la colección destino
+	// o los de la colección fuente pueden ser derivados de la colección destino.
+	// ? super T se refiere que el tipo de elementos de la colección puede
+	// ser T o una clase superior a T
+	public static<T> void copyObjects(Collection<? super T> dest,Collection<T> source) {
+		for(T elem:source)
+			dest.add(elem);
+	}
+
+	// EJERCICIO CASO 2: Contar elementos en una lista
+	public static <T> int countElements(List<T> list, T elementToCount) {
+		int count = 0;
+		for(T elem : list) {
+			if(elem != null && elem.equals(elementToCount)) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+
+	// EJERCICIO 4 (CASO 6): Extraer y copiar
+	public static <T> void extractAndCopy(ArrayDeque<? super T> dest, ArrayDeque<T> source) {
+		while(!source.isEmpty()) {
+			dest.add(source.poll());
+		}
+	}
+	
+	public static void main(String[] args) {
+		LinkedList<String> al1 = new LinkedList<>();
+		ArrayList<Integer> al2 = new ArrayList<>();
+
+		al1.add("Pablo");
+		al1.add("Dayra");
+		al1.add("Roberto");
+		al1.add("Ximena");
+		al1.add("Fernando");
+		
+		al2.add(-2);
+		al2.add(-3);
+		al2.add(-5);
+		al2.add(-7);
+		al2.add(-11);
+		
+		printCollection(al1);
+		printCollection(al2);
+		
+		ArrayDeque<String> dq1 = new ArrayDeque<>();
+		
+		dq1.offer("Pablo");
+		dq1.offer("Dayra");
+		dq1.offer("Roberto");
+		dq1.offer("Ximena");
+		dq1.offer("Fernando");
+		
+		printCollection(dq1);
+		
+		System.out.println(greatestNumber2(al2));
+		
+		ArrayList<Double> al3 = new ArrayList<>();
+		
+		al3.add(-5.0);
+		al3.add(-9.0);
+		al3.add(-7.0);
+		al3.add(-2.0);
+		al3.add(-11.0);
+		
+		System.out.println(greatestNumber2(al3));
+		
+		ArrayDeque<String> dq2 = new ArrayDeque<>();
+		
+		copyObjects(dq2,dq1);
+		copyObjects(dq2,al1);
+		printCollection(dq2);
+		
+		ArrayDeque<Number> allNumbers = new ArrayDeque<>();
+		
+		copyObjects(allNumbers,al2);	// Number <- Integer
+		copyObjects(allNumbers,al3);	// Number <- Double
+		printCollection(allNumbers);
+
+		// PRUEBAS DE LOS NUEVOS MÉTODOS (CASO 2 Y 6)
+		System.out.println("\n PRUEBA CASO 2 (Contar elementos)");
+		ArrayList<String> nombres = new ArrayList<>();
+		nombres.add("Ana");
+		nombres.add("Luis");
+		nombres.add("Ana");
+		System.out.println("Veces que aparece 'Ana': " + countElements(nombres, "Ana"));
+
+		System.out.println("\n PRUEBA CASO 6 (Extraer y copiar) ");
+		ArrayDeque<Number> colaOrigen = new ArrayDeque<>();
+		colaOrigen.offer(10);
+		colaOrigen.offer(20);
+		
+		ArrayDeque<Object> colaDestino = new ArrayDeque<>();
+		colaDestino.offer("Inicio");
+		
+		extractAndCopy(colaDestino, colaOrigen);
+		
+		System.out.println("Origen vaciado: " + colaOrigen);
+		System.out.println("Destino con nuevos elementos: ");
+		printCollection(colaDestino);
+	}
+}

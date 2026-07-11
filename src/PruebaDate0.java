@@ -1,0 +1,36 @@
+package itesoDate;
+
+import java.util.HashSet;
+
+public class PruebaDate0 {
+    public static void main(String[] args) {
+        
+        int N = 100000;
+        System.out.println("=== INICIANDO PRUEBA DE HASHSET ===");
+
+        // 1. Crear el HashSet
+        HashSet<Date> conjuntoFechas = new HashSet<>();
+
+        // 2. Insertar 100,000 fechas aleatorias
+        for (int i = 0; i < N; i++) {
+            Date d = new Date();
+            d.setRandomDate(); 
+            conjuntoFechas.add(d); // Aquí adentro Java llama a hashCode() y a equals()
+        }
+
+        // 3. Imprimir el tamaño
+        int T = conjuntoFechas.size();
+        System.out.println("Fechas intentadas (N): " + N);
+        System.out.println("Tamaño final del conjunto (T): " + T);
+
+        // 4. ¿Hubo repetidos?
+        int repetidos = N - T;
+        System.out.println("¿Hubo repetidos?: " + (repetidos > 0 ? "Sí" : "No"));
+        System.out.println("Fechas duplicadas que fueron ignoradas: " + repetidos);
+
+        // 5. Imprimir los conteos (Paso 6 de tu tarea)
+        System.out.println("\n--- ESTADÍSTICAS DEL CÓDIGO ---");
+        System.out.println("Veces que se llamó a hashCode(): " + Date.hashCodeConteo);
+        System.out.println("Veces que se llamó a equals(): " + Date.equalsConteo);
+    }
+}

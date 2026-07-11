@@ -1,5 +1,9 @@
 public class Ejerr1 {
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> branch 'master' of https://github.com/Santiago-CS/POO.git
     public static void main(String[] args) {
         
         // Declaración y asignación de las matrices A y B hardcodeadas :p
