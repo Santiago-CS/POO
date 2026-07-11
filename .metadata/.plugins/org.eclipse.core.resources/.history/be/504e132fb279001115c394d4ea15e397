@@ -1,0 +1,109 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// 1. LA EXCEPCIÓN PERSONALIZADA
+class IncompatibilidadPiezaException extends Exception {
+    public IncompatibilidadPiezaException(String mensaje) {
+        super(mensaje);
+    }
+}
+
+// 2. LA INTERFAZ (Contrato para las piezas)
+interface Instalable {
+    void aplicarMejora(Vehiculo v) throws IncompatibilidadPiezaException;
+    String getNombrePieza();
+}
+
+// 3. LA CLASE ABSTRACTA (El molde padre)
+abstract class Vehiculo {
+    protected String modelo;
+    protected int caballosDeFuerza;
+    // Una lista dinámica para guardar las modificaciones que le hagamos
+    protected List<Instalable> modificaciones = new ArrayList<>();
+
+    public Vehiculo(String modelo, int hpBase) {
+        this.modelo = modelo;
+        this.caballosDeFuerza = hpBase;
+    }
+
+    public void instalarPieza(Instalable pieza) {
+        try {
+            pieza.aplicarMejora(this); // Polimorfismo en acción
+            modificaciones.add(pieza);
+            System.out.println("✅ Instalación exitosa: " + pieza.getNombrePieza());
+        } catch (IncompatibilidadPiezaException e) {
+            System.out.println("❌ Error en taller: " + e.getMessage());
+        }
+    }
+
+    // Métodos para que las piezas puedan modificar el estado del auto
+    public void aumentarHP(int extraHP) {
+        this.caballosDeFuerza += extraHP;
+    }
+
+    public void mostrarFichaTecnica() {
+        System.out.println("\n--- FICHA TÉCNICA: " + modelo + " ---");
+        System.out.println("HP Actuales: " + caballosDeFuerza);
+        System.out.println("Modificaciones instaladas: " + modificaciones.size());
+        for (Instalable mod : modificaciones) {
+            System.out.println("- " + mod.getNombrePieza());
+        }
+    }
+}
+
+// 4. UNA CLASE HIJA (El objeto real)
+class AutoDeportivo extends Vehiculo {
+    public AutoDeportivo(String modelo, int hpBase) {
+        super(modelo, hpBase); // Llamada al constructor del padre
+    }
+}
+
+// 5. UNA PIEZA CONCRETA (Implementa la interfaz)
+class SistemaEscape implements Instalable {
+    private String tipo; // ej. "Straight Pipe", "Catback"
+    private int aumentoHP;
+
+    public SistemaEscape(String tipo, int aumentoHP) {
+        this.tipo = tipo;
+        this.aumentoHP = aumentoHP;
+    }
+
+    @Override
+    public void aplicarMejora(Vehiculo v) throws IncompatibilidadPiezaException {
+        // Aquí podríamos validar que un escape muy agresivo no se ponga en un auto que no lo soporta
+        if(v.caballosDeFuerza < 100 && tipo.equals("Straight Pipe")) {
+            throw new IncompatibilidadPiezaException("El motor no soporta un " + tipo + ".");
+        }
+        v.aumentarHP(aumentoHP);
+    }
+
+    @Override
+    public String getNombrePieza() {
+        return "Escape " + tipo + " (+" + aumentoHP + " HP)";
+    }
+}
+
+// 6. TU CLASE PRINCIPAL
+public class TuningSimulator {
+    public static void main(String[] args) {
+        // Creamos un par de autos
+        AutoDeportivo miCupra = new AutoDeportivo("Cupra 290", 290);
+        Vehiculo miSonic = new AutoDeportivo("Chevrolet Sonic", 115); // Upcasting
+        
+        // Creamos refacciones en inventario
+        SistemaEscape escapeDeportivo = new SistemaEscape("Catback", 15);
+        SistemaEscape tuboDirecto = new SistemaEscape("Straight Pipe", 25);
+        
+        // Simulamos el taller
+        System.out.println("Entrando al simulador...\n");
+        
+        miCupra.instalarPieza(escapeDeportivo);
+        miCupra.instalarPieza(tuboDirecto);
+        
+        miSonic.instalarPieza(tuboDirecto); // Esto debería lanzar la excepción por falta de HP
+        
+        // Vemos los resultados
+        miCupra.mostrarFichaTecnica();
+        miSonic.mostrarFichaTecnica();
+    }
+}
