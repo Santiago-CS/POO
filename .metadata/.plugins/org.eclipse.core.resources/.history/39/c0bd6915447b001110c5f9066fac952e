@@ -1,0 +1,149 @@
+package itesoDate;
+
+import java.util.Calendar;
+
+public class Date0 {
+
+    // Contadores para el examen/práctica
+	public static int equalsConteo = 0;
+    public static int hashCodeConteo = 0;
+
+    private static int instancesCount = 0;
+
+    private int year;
+    private int month;
+    private int day;
+
+    public static final int JANUARY = 1;
+    public static final int FEBRUARY = 2;
+    public static final int MARCH = 3;
+    public static final int APRIL = 4;
+    public static final int MAY = 5;
+    public static final int JUNE = 6;
+    public static final int JULY = 7;
+    public static final int AUGUST = 8;
+    public static final int SEPTEMBER = 9;
+    public static final int OCTOBER = 10;
+    public static final int NOVEMBER = 11;
+    public static final int DECEMBER = 12;
+
+    public static final int SUNDAY = 0;
+    public static final int MONDAY = 1;
+    public static final int TUESDAY = 2;
+    public static final int WEDNESDAY = 3;
+    public static final int THURSDAY = 4;
+    public static final int FRIDAY = 5;
+    public static final int SATURDAY = 6;
+
+    private final int FIRSTDAY;
+    private final int FIRSTMONTH;
+    private final int FIRSTYEAR;
+
+    public Date() {
+        instancesCount++;
+        Calendar today = Calendar.getInstance();
+        this.year = today.get(Calendar.YEAR);
+        this.month = today.get(Calendar.MONTH) + 1;
+        this.day = today.get(Calendar.DAY_OF_MONTH);
+
+        this.FIRSTDAY = this.day;
+        this.FIRSTMONTH = this.month;
+        this.FIRSTYEAR = this.year;
+    }
+
+    public Date(int year, int month, int day) {
+        instancesCount++;
+        this.setYear(year);
+        this.setMonth(month);
+        this.setDay(day);
+
+        this.FIRSTYEAR = this.year;
+        this.FIRSTMONTH = this.month;
+        this.FIRSTDAY = this.day;
+    }
+
+    public void setDate(int year, int month, int day) {
+        if (!isValid(year, month, day)) {
+            throw new IllegalArgumentException("Fecha inválida");
+        }
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public static boolean isLeap(int year) {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+
+    public static boolean isValid(int year, int month, int day) {
+        if (year <= 0 || year > 9999) return false;
+        if (month < 1 || month > 12) return false;
+        if (day < 1) return false;
+
+        int maxDays = 31;
+        if (month == APRIL || month == JUNE || month == SEPTEMBER || month == NOVEMBER) {
+            maxDays = 30;
+        } else if (month == FEBRUARY) {
+            maxDays = isLeap(year) ? 29 : 28;
+        }
+        return day <= maxDays;
+    }
+
+    public void setRandomDate() {
+        year = 1900 + (int) (200 * Math.random());
+        month = JANUARY + (int) (12 * Math.random());
+        day = 1 + (int) (28 * Math.random());
+    }
+
+    // ========================================================
+    // AQUÍ ESTÁN LOS DOS MÉTODOS CLAVE PARA TU PRÁCTICA
+    // ========================================================
+
+    @Override
+    public boolean equals(Object o) {
+        equalsConteo++; // Aumentamos el contador cada que Java compara
+
+        if (this == o) return true;
+        if (o instanceof Date) {
+            Date date = (Date) o;
+            return day == date.day && month == date.month && year == date.year;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        hashCodeConteo++; // Aumentamos el contador cada que Java pide el Hash
+
+        // Esta es la fórmula ESTÁNDAR y más eficiente (Opción sugerida)
+        int result = 17;
+        result = 31 * result + year;
+        result = 31 * result + month;
+        result = 31 * result + day;
+        return result;
+    }
+}
