@@ -3,7 +3,7 @@ import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 
-// 1. EL "BACKEND" (Lógica de clases)
+// EL "BACKEND" (Lógica de clases)
 
 class IncompatibilidadPiezaException extends Exception {
     public IncompatibilidadPiezaException(String mensaje) { super(mensaje); }
@@ -29,7 +29,7 @@ class Inventario<T> {
 abstract class Vehiculo {
     protected String modelo;
     protected int caballosDeFuerza;
-    protected int hpBase; // ¡NUEVO!: Para que el coche recuerde sus caballos originales
+    protected int hpBase; // Para que el coche recuerde sus caballos originales
     protected String rutaImagen; 
     protected List<Instalable> modificaciones = new ArrayList<>();
 
@@ -153,7 +153,7 @@ class ValvulaAlivio implements Instalable, Homologable {
 }
 
 
-// 2. EL "FRONTEND" (Interfaz Gráfica)
+// EL "FRONTEND" (Interfaz Gráfica)
 public class TuningSimulatorGUI {
     
     public static void main(String[] args) {
@@ -196,7 +196,7 @@ public class TuningSimulatorGUI {
         
         ventana.add(panelTop, BorderLayout.NORTH);
 
-        // --- PANEL CENTRAL: PANTALLA Y FOTO ---
+        // PANEL CENTRAL: PANTALLA Y FOTO
         JPanel panelCentro = new JPanel(new GridLayout(1, 2, 10, 10)); 
         
         JTextArea pantalla = new JTextArea();
