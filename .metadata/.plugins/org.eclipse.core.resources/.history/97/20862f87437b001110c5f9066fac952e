@@ -1,0 +1,232 @@
+package itesoDate;
+
+import java.util.Calendar;
+
+public class Date {
+
+    private static int instancesCount = 0;
+
+    private int year;
+    private int month;
+    private int day;
+
+    public static final int JANUARY = 1;
+    public static final int FEBRUARY = 2;
+    public static final int MARCH = 3;
+    public static final int APRIL = 4;
+    public static final int MAY = 5;
+    public static final int JUNE = 6;
+    public static final int JULY = 7;
+    public static final int AUGUST = 8;
+    public static final int SEPTEMBER = 9;
+    public static final int OCTOBER = 10;
+    public static final int NOVEMBER = 11;
+    public static final int DECEMBER = 12;
+
+    public static final int SUNDAY = 0;
+    public static final int MONDAY = 1;
+    public static final int TUESDAY = 2;
+    public static final int WEDNESDAY = 3;
+    public static final int THURSDAY = 4;
+    public static final int FRIDAY = 5;
+    public static final int SATURDAY = 6;
+
+    private final int FIRSTDAY;
+    private final int FIRSTMONTH;
+    private final int FIRSTYEAR;
+
+    public Date() {
+        instancesCount++;
+        Calendar today = Calendar.getInstance();
+        this.year = today.get(Calendar.YEAR);
+        this.month = today.get(Calendar.MONTH) + 1;
+        this.day = today.get(Calendar.DAY_OF_MONTH);
+
+        this.FIRSTDAY = this.day;
+        this.FIRSTMONTH = this.month;
+        this.FIRSTYEAR = this.year;
+    }
+
+    public Date(int year, int month, int day) {
+        instancesCount++;
+
+        this.setYear(year);
+        this.setMonth(month);
+        this.setDay(day);
+
+        this.FIRSTYEAR = this.year;
+        this.FIRSTMONTH = this.month;
+        this.FIRSTDAY = this.day;
+    }
+
+    public void setDate(int year, int month, int day) {
+        if (!isValid(year, month, day)) {
+            throw new InvalidDateException(year, month, day);
+        }
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
+
+    public void setYear(int year) {
+        if (!isValid(year, this.month, this.day)) {
+            throw new InvalidDateException(year, this.month, this.day);
+        }
+        this.year = year;
+    }
+
+    public void setMonth(int month) {
+        if (!isValid(this.year, month, this.day)) {
+            throw new InvalidDateException(this.year, month, this.day);
+        }
+        this.month = month;
+    }
+
+    public void setDay(int day) {
+        if (!isValid(this.year, this.month, day)) {
+            throw new InvalidDateException(this.year, this.month, day);
+        }
+        this.day = day;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public int getFirstYear() {
+        return FIRSTYEAR;
+    }
+
+    public int getFirstMonth() {
+        return FIRSTMONTH;
+    }
+
+    public int getFirstDay() {
+        return FIRSTDAY;
+    }
+
+    public static int getInstancesCount() {
+        return instancesCount;
+    }
+
+    public static boolean isLeap(int year) {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+
+    public static boolean isValid(int year, int month, int day) {
+        if (year <= 0 || year > 9999)
+            return false;
+        if (month < 1 || month > 12)
+            return false;
+        if (day < 1)
+            return false;
+
+        int maxDays = 31;
+
+        if (month == APRIL || month == JUNE || month == SEPTEMBER || month == NOVEMBER) {
+            maxDays = 30;
+        } else if (month == FEBRUARY) {
+            maxDays = isLeap(year) ? 29 : 28;
+        }
+
+        return day <= maxDays;
+    }
+
+    public static int dow(int year, int month, int day) {
+        if (!isValid(year, month, day)) {
+            return -1;
+        }
+
+        if (month == 1 || month == 2) {
+            month += 12;
+            year--;
+        }
+
+        int formulaResult = (day + (13 * (month + 1) / 5) + year + (year / 4) - (year / 100) + (year / 400)) % 7;
+
+        return (formulaResult + 6) % 7;
+    }
+
+    public static String dowName(int dayValue) {
+        switch (dayValue) {
+            case SUNDAY: return "sunday";
+            case MONDAY: return "monday";
+            case TUESDAY: return "tuesday";
+            case WEDNESDAY: return "wednesday";
+            case THURSDAY: return "thursday";
+            case FRIDAY: return "friday";
+            case SATURDAY: return "saturday";
+            default: return null;
+        }
+    }
+
+    public static String monthName(int monthValue) {
+        switch (monthValue) {
+            case JANUARY: return "january";
+            case FEBRUARY: return "february";
+            case MARCH: return "march";
+            case APRIL: return "april";
+            case MAY: return "may";
+            case JUNE: return "june";
+            case JULY: return "july";
+            case AUGUST: return "august";
+            case SEPTEMBER: return "september";
+            case OCTOBER: return "october";
+            case NOVEMBER: return "november";
+            case DECEMBER: return "december";
+            default: return null;
+        }
+    }
+
+    public boolean isValid() {
+        return isValid(this.year, this.month, this.day);
+    }
+
+    public boolean isLeap() {
+        return isLeap(this.year);
+    }
+
+    public int getDow() {
+        return dow(this.year, this.month, this.day);
+    }
+
+    public String getDowName() {
+        return dowName(getDow());
+    }
+
+    public String monthName() {
+        return monthName(this.month);
+    }
+
+    @Override
+    public String toString() {
+        return "Date:{\n" +
+                "\t\"year\":" + year + ",\n" +
+                "\t\"month\":" + month + ", \n" +
+                "\t\"day\":" + day + ",\n" +
+                "\t\"FIRST_DATE\":" + String.format("\"%02d/%02d/%04d\"\n", FIRSTDAY, FIRSTMONTH, FIRSTYEAR) +
+                "}\n";
+    }
+
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o instanceof Date) {
+            Date date = (Date) o;
+            return day == date.day && month == date.month && year == date.year;
+        }
+        return false;
+    }
+
+    public Date clone() {
+        return new Date(this.year, this.month, this.day);
+    }
+}

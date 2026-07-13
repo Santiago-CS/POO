@@ -1,0 +1,30 @@
+import java.util.Set;
+import java.util.TreeSet;
+
+public class ejre2 {
+
+    public static void main(String[] args) {
+        
+
+        Set<Integer> numeros = new TreeSet<>();
+
+        numeros.add(100);
+        numeros.add(150);
+        numeros.add(120);
+        numeros.add(100);
+        numeros.add(180);
+        numeros.add(200);
+        numeros.add(120);
+        numeros.add(180);
+        numeros.add(100);
+
+        System.out.println("\nTamaño del conjunto: " + numeros.size());
+
+        System.out.println("\nElementos ordenados naturalmente:");
+        for (Integer num : numeros) {
+            System.out.println("- " + num);
+        }
+        
+        System.out.println("\n--- FIN DE LA PRUEBA ---");
+    }
+}
